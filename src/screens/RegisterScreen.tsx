@@ -13,18 +13,22 @@ import {RootStackParamList} from '../../App';
 
 export type Props = NativeStackScreenProps<
   RootStackParamList,
-  'Login',
+  'Register',
   'MyStack'
 >;
 
-export default function LoginScreen({navigation}: Props) {
+export default function RegisterScreen({navigation}: Props) {
   const [email, setEmail] = useState({value: '', error: ''});
   const [password, setPassword] = useState({value: '', error: ''});
+  const [confirmPassword, setConfirmPassword] = useState({
+    value: '',
+    error: '',
+  });
 
-  const toRegisterPage = () => {
-    navigation.navigate('Register');
+  const onBackToLoginPressed = () => {
+    navigation.navigate('Login');
   };
-  const onLoginPressed = () => {
+  const onButtonPressed = () => {
     const emailError = emailValidator(email.value);
     const passwordError = passwordValidator(password.value);
     if (emailError || passwordError) {
@@ -32,7 +36,10 @@ export default function LoginScreen({navigation}: Props) {
       setPassword({...password, error: passwordError});
       return;
     }
-    navigation.navigate('Dashboard');
+    if (confirmPassword !== password) {
+      setConfirmPassword({...confirmPassword, error: 'Passwords do not match'});
+      return;
+    }
     // navigate to home screen on success
   };
 
@@ -64,12 +71,22 @@ export default function LoginScreen({navigation}: Props) {
             secureTextEntry
           />
         </View>
+        <View style={styles.inputView}>
+          <TextInput
+            returnKeyType="done"
+            value={password.value}
+            onChangeText={text => setConfirmPassword({value: text, error: ''})}
+            // error={!!password.error}
+            // errorText={password.error}
+            secureTextEntry
+          />
+        </View>
 
-        <TouchableOpacity onPress={toRegisterPage}>
-          <Text style={styles.forgot_button}>Register</Text>
+        <TouchableOpacity onPress={onBackToLoginPressed}>
+          <Text style={styles.forgot_button}>Back to Login</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.loginBtn} onPress={onLoginPressed}>
+        <TouchableOpacity style={styles.loginBtn} onPress={onButtonPressed}>
           <Text style={styles.loginText}>LOGIN</Text>
         </TouchableOpacity>
       </View>

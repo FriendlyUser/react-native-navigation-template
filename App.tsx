@@ -15,16 +15,24 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import DefaultScreen from './src/screens/DefaultScreen';
 import LoginScreen from './src/screens/LoginScreen';
+import RegisterScreen from './src/screens/RegisterScreen';
+
+export type RootStackParamList = {
+  Login: any;
+  Register: any;
+  Dashboard: any;
+};
 
 const App = () => {
-
   const Stack = createNativeStackNavigator();
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* <Stack.Screen name="Home" component={DefaultScreen} /> */}
+        {/* */}
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name="Dashboard" component={DefaultScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
